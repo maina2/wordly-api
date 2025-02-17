@@ -112,7 +112,6 @@ WSGI_APPLICATION = 'wordlyBackend.wsgi.application'
 
 
 # Replace the DATABASES section of your settings.py with this
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
