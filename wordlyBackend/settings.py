@@ -1,28 +1,22 @@
 from pathlib import Path
 import os
-from decouple import config, Csv
-from dotenv import load_dotenv
+from decouple import config
 import dj_database_url
 from datetime import timedelta
-import os
-from dotenv import load_dotenv
-from urllib.parse import urlparse
 
-load_dotenv()
+# Load environment variables
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ENVIRONMENT = config('ENVIRONMENT', default='development')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY ='django-insecure-vbskdtq)p1fzn=70l^u+6!ri=zuuzyah)%)%5*(ntf-4-=o9u7'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-vbskdtq)p1fzn=70l^u+6!ri=zuuzyah)%)%5*(ntf-4-=o9u7')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -94,38 +88,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'wordlyBackend.wsgi.application'
 
 # Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# POSTGRES_LOCALLY = True
-# if ENVIRONMENT == "production" or POSTGRES_LOCALLY == True:
-#     DATABASES['default'] = dj_database_url.config(
-#         default=config('DATABASE_URL'),
-#         conn_max_age=1800
-#     )
-
-# Add these at the top of your settings.py
-
-
-# Replace the DATABASES section of your settings.py with this
-
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.decode('utf-8').lstrip('/'),  # Ensure it's a string
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': tmpPostgres.port or 5432,  # Default to 5432 if port is None
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=1800,
+        ssl_require=True
+    )
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -156,7 +125,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
 
