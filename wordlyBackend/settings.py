@@ -18,7 +18,7 @@ ENVIRONMENT = config('ENVIRONMENT', default='development')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY ='django-insecure-vbskdtq)p1fzn=70l^u+6!ri=zuuzyah)%)%5*(ntf-4-=o9u7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
